@@ -1,0 +1,4 @@
+[submodule "public"]
+	path = public
+	url = https://github.com/taha-yassine/taha-yassine.github.io.git
+	branch = master
