@@ -16,7 +16,7 @@ authors:
 # - "Equal contribution"
 
 date: "2022-05-22T00:00:00Z"
-doi: ""
+doi: "10.1109/ICASSP43922.2022.9747293"
 
 # Schedule page publish date (NOT publication's date).
 publishDate: "2017-01-01T00:00:00Z"
@@ -25,7 +25,7 @@ publishDate: "2017-01-01T00:00:00Z"
 # Legend: 0 = Uncategorized; 1 = Conference paper; 2 = Journal article;
 # 3 = Preprint / Working Paper; 4 = Report; 5 = Book; 6 = Book section;
 # 7 = Thesis; 8 = Patent
-publication_types: ["3"]
+publication_types: ["1"]
 
 # Publication name and optional abbreviated publication name.
 publication: In *IEEE International Conference on Acoustics, Speech and Signal Processing*
@@ -46,7 +46,7 @@ featured: true
 # - name: Custom Link
 #   url: http://example.org
 
-url_pdf: ''
+url_pdf: 'https://arxiv.org/pdf/2201.01386.pdf'
 url_code: ''
 url_dataset: ''
 url_poster: ''
