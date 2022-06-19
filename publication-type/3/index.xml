@@ -5,7 +5,7 @@
     <link>https://tahayassine.me/publication-type/3/</link>
       <atom:link href="https://tahayassine.me/publication-type/3/index.xml" rel="self" type="application/rss+xml" />
     <description>3</description>
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Sun, 22 May 2022 00:00:00 +0000</lastBuildDate>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Mon, 20 Jun 2022 00:17:56 +0200</lastBuildDate>
     <image>
       <url>https://tahayassine.me/media/icon_huecf151563ab8d381649e162e44411916_11613_512x512_fill_lanczos_center_3.png</url>
       <title>3</title>
@@ -13,26 +13,11 @@
     </image>
     
     <item>
-      <title>Deep learning for location based beamforming with NLOS channels</title>
-      <link>https://tahayassine.me/publication/lbb/</link>
-      <pubDate>Sun, 22 May 2022 00:00:00 +0000</pubDate>
-      <guid>https://tahayassine.me/publication/lbb/</guid>
-      <description>&lt;!-- &lt;div class=&#34;alert alert-note&#34;&gt;
-  &lt;div&gt;
-    Click the &lt;em&gt;Cite&lt;/em&gt; button above to demo the feature to enable visitors to import publication metadata into their reference management software.
-  &lt;/div&gt;
-&lt;/div&gt;
-
-
-&lt;div class=&#34;alert alert-note&#34;&gt;
-  &lt;div&gt;
-    Create your slides in Markdown - click the &lt;em&gt;Slides&lt;/em&gt; button to check out the example.
-  &lt;/div&gt;
-&lt;/div&gt;
-
-
-Supplementary notes can be added here, including [code, math, and images](https://wowchemy.com/docs/writing-markdown-latex/). --&gt;
-</description>
+      <title>Leveraging triplet loss and nonlinear dimensionality reduction for on-the-fly channel charting</title>
+      <link>https://tahayassine.me/publication/triplet_cc/</link>
+      <pubDate>Mon, 20 Jun 2022 00:17:56 +0200</pubDate>
+      <guid>https://tahayassine.me/publication/triplet_cc/</guid>
+      <description></description>
     </item>
     
   </channel>
