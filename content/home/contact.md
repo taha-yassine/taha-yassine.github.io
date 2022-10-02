@@ -5,6 +5,9 @@ widget: contact
 # This file represents a page section.
 headless: true
 
+# Activate this widget? true/false
+active: false
+
 # Order that this section appears on the page.
 weight: 130
 
@@ -53,3 +56,5 @@ content:
   #     link: 'https://zoom.com'
 
 design:
+  columns: '2'
+---
