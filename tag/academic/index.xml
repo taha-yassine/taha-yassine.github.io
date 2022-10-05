@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Academic | Taha Yassine</title><link>https://tahayassine.me/tag/academic/</link><atom:link href="https://tahayassine.me/tag/academic/index.xml" rel="self" type="application/rss+xml"/><description>Academic</description><generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Sun, 13 Dec 2020 00:00:00 +0000</lastBuildDate><image><url>https://tahayassine.me/media/icon_huecf151563ab8d381649e162e44411916_11613_512x512_fill_lanczos_center_3.png</url><title>Academic</title><link>https://tahayassine.me/tag/academic/</link></image><item><title>UPA phased antenna array steering vector derivation</title><link>https://tahayassine.me/post/upa-steering-vector/</link><pubDate>Sun, 13 Dec 2020 00:00:00 +0000</pubDate><guid>https://tahayassine.me/post/upa-steering-vector/</guid><description>&lt;p>In this article I will explain how the steering vector (or spatial signature) of a uniform planar area can be derived in a very simple and visual way.&lt;/p>
+&lt;p>Let’s start by writing down the frequency response $h$ of a single receive antenna:&lt;/p>
+&lt;p>$$
+h = \alpha e^{-j(2\pi f\tau + \phi)}.
+$$&lt;/p>
+&lt;p>In wireless communications, the wavefronts of an antenna emitting in all directions are spherical. However, one can assume that when the distance to the transmitter is sufficiently big, the wavefronts can be reasonably approximated by planes. In other words, the curvature of the sphere of big radius is small enough for the local patches to be approximated by their tangent planes, as show on figure 1. This assumption greatly simplifies calculations. One can observe that a plane wave travels in the direction normal to its plane, represented by the unit vector $\overrightarrow{u}$. In the case of the plane wave model, this direction is aligned with the radius of the sphere.&lt;/p>
+&lt;p>
+&lt;figure id="figure-the-plane-wave-assumption-holds-for-receivers-at-a-great-distance-from-the-transmitter">
+&lt;div class="d-flex justify-content-center">
+&lt;div class="w-100" >&lt;img alt="The plane wave assumption holds for receivers at a great distance from the transmitter." srcset="
+/post/upa-steering-vector/plane_wave_assumption_hu3f532d11e82a17fc24f43e5a50a4b158_55758_8a1a49480d9b99448d4204442a6fde08.webp 400w,
+/post/upa-steering-vector/plane_wave_assumption_hu3f532d11e82a17fc24f43e5a50a4b158_55758_a961b5df7433ef3da1b479b15ef4c6b8.webp 760w,
+/post/upa-steering-vector/plane_wave_assumption_hu3f532d11e82a17fc24f43e5a50a4b158_55758_1200x1200_fit_q75_h2_lanczos_3.webp 1200w"
+src="https://tahayassine.me/post/upa-steering-vector/plane_wave_assumption_hu3f532d11e82a17fc24f43e5a50a4b158_55758_8a1a49480d9b99448d4204442a6fde08.webp"
+width="737"
+height="649"
+loading="lazy" data-zoomable />&lt;/div>
+&lt;/div>&lt;figcaption>
+The plane wave assumption holds for receivers at a great distance from the transmitter.
+&lt;/figcaption>&lt;/figure>
+&lt;/p>
+&lt;p>Let’s now start by considering two receive antennas $A$ and $B$ close enough to each other on the scale of the wavelength. Antenna $A$ is placed at the origin of a three-dimensional Cartesian space while antenna $B$ is at position $(x,y,z)$ represented by the vector $\overrightarrow{p}$ as shown on the figure bellow.&lt;/p>
+&lt;p>FIGURE&lt;/p>
+&lt;p>The frequency responses $h_1$ and $h_2$ corresponding to the first and second antenna respectively are as follows:&lt;/p>
+&lt;p>$$
+h_1=\alpha e^{-j\phi}e^{-j2\pi f\tau} \quad \text{and} \quad h_2=\alpha e^{-j\phi}e^{-j2\pi (f\tau+\frac{d}{\lambda})},
+$$&lt;/p>
+&lt;p>where $d$ is the distance the wave needs to further travel from the first antenna to attain the second antenna, assuming it is small enough for $\alpha$ to remain unchanged.&lt;/p>
+&lt;p>The objective now is to determine this distance knowing the position $\overrightarrow{p}$ of antenna $B$ relative to antenna $A$, and the direction of arrival (DoA) of the wave $\overrightarrow{u}$ (i.e. the unit normal to the wave plane). If the antenna $B$ is placed such that $\overrightarrow{p}$ is aligned with $\overrightarrow{u}$, then this distance is exactly the norm of $\overrightarrow{p}$ (i.e., $d=\Vert\overrightarrow{p}\Vert$). In the more general case however, this is not true. Luckily, we can easily derive the true quantity using simple geometry. Indeed, the distance $d$ is simply the distance between the two antennas orthogonally projected on the direction of travel of the wave:&lt;/p>
+&lt;p>$$
+\begin{equation}
+d = \overrightarrow{p}.\overrightarrow{u}.
+\end{equation}
+$$&lt;/p>
+&lt;aside>
+💡 If the signal reaches an antenna before reaching reference antenna, then the phase shift needs to be negative. This works out well in this case as the scalar product changes sign accordingly.
+&lt;/aside>
+&lt;p>In the case of an antenna array, the same principle holds: for each antenna, the objective is finding the distance the wave needs to further travel from one reference antenna to the rest of the antennas. Formally, for a UPA of size $N\times M$, we define a matrix $\mathbf{D}$ of those distances where each element corresponds to one antenna:&lt;/p>
+&lt;p>$$
+\mathbf{D}=\begin{bmatrix}
+d_{00} &amp;amp; \dots &amp;amp; d_{0(M-1)}\
+\vdots &amp;amp; \ddots &amp;amp; \vdots\
+d_{(N-1)0} &amp;amp; \dots &amp;amp; d_{(N-1)(M-1)}
+\end{bmatrix}.
+$$&lt;/p>
+&lt;p>Taking the top left antenna as reference, it follows that $d_{00}=0$. Using (1) we have:&lt;/p>
+$$
+\mathbf{D}=\begin{bmatrix}
+\overrightarrow{p}_{00}.\overrightarrow{u} &amp; \dots &amp; \overrightarrow{p}_{0(M-1)}.\overrightarrow{u}\\
+\vdots &amp; \ddots &amp; \vdots\\
+\overrightarrow{p}_{(N-1)0}.\overrightarrow{u} &amp; \dots &amp; \overrightarrow{p}_{(N-1)(M-1)}.\overrightarrow{u}
+\end{bmatrix}.
+$$
+&lt;p>In the case of UPAs, the array elements are usually separated by half a wavelength both horizontally and vertically, meaning that if the array belongs to the $xz$-plane, then $\overrightarrow{p}_{mn}=(-m\frac{\lambda}{2},0,-n\frac{\lambda}{2})$.&lt;/p>
+&lt;p>On the other hand, $\overrightarrow{u}$ is equivalently represented by the azimuth and elevation angles of arrival, noted $\theta$ and $\varphi$ respectively. Converting from polar to Cartesian coordinates, we obtain $\overrightarrow{u}=(-\cos{\varphi}\cos{\theta},-\cos{\varphi}\sin{\theta},-\sin{\varphi})$. Finally, we obtain $\overrightarrow{p}_{mn}.\overrightarrow{u}=m\frac{\lambda}{2}\cos \varphi \cos \theta + n\frac{\lambda}{2}\sin \varphi$. Matrix $\mathbf{D}$ then becomes:&lt;/p>
+&lt;p>$$
+\mathbf{D}=\begin{bmatrix}
+0 &amp;amp; \dots &amp;amp; (M-1)\frac{\lambda}{2}\cos \varphi \cos \theta\
+\vdots &amp;amp; \ddots &amp;amp; \vdots\
+(N-1)\frac{\lambda}{2}\sin \varphi &amp;amp; \dots &amp;amp; (M-1)\frac{\lambda}{2}\cos \varphi \cos \theta + (N-1)\frac{\lambda}{2}\sin \varphi
+\end{bmatrix}.
+$$&lt;/p>
+&lt;p>This form greatly simplifies the expression of the channel matrix $\mathbf{H}$ of the UPA:&lt;/p>
+&lt;p>$$
+\mathbf{H}=\alpha e^{-j\phi}e^{-j2\pi f\tau}e^{-j\frac{2\pi}{\lambda}\mathbf{D}},
+$$&lt;/p>
+&lt;p>where the last exponential is the element-wise operator.&lt;/p>
+&lt;p>One can then observe that $e^{-j\frac{2\pi}{\lambda}\mathbf{D}}$ can be written as the Kronecker product of two unit vectors:&lt;/p>
+&lt;p>$$
+e^{-j\frac{2\pi}{\lambda}\mathbf{D}} = \sqrt{NM}\mathbf{a}_h^\top\otimes\mathbf{a}_v,
+$$&lt;/p>
+&lt;p>where $\mathbf{a}_h=\frac{1}{\sqrt{M}}(1,\dots,e^{(M-1)\pi\cos{\varphi}\cos{\theta}})^\top$ and $\mathbf{a}_v=\frac{1}{\sqrt{N}}(1,\dots,e^{(N-1)\pi\sin{\varphi}})^\top$. These are called the steering vectors (or spatial signatures) of the antenna array. They depend on the direction of arrival of the signal and fully describe the system. They are a convient way to represent $\mathbf{H}$ whom final expression is:&lt;/p>
+&lt;p>$$
+\mathbf{H}=\sqrt{NM}\alpha e^{-j\phi}e^{-j2\pi f\tau}\mathbf{a}_h^\top\otimes\mathbf{a}_v.
+$$&lt;/p>
+&lt;p>It is worth noting that the same procedure could be used to derive the formula for different configurations of antenna arrays (ULA, circular, cylindrical…).&lt;/p></description></item></channel></rss>
