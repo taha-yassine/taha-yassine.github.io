@@ -35,5 +35,7 @@ jobs:
         # below accordingly.
         if: ${{ github.ref == 'refs/heads/master' }}
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          personal_token: ${{ secrets.PERSONAL_TOKEN }}
+          external_repository: taha-yassine/taha-yassine.github.io
+          publish_branch: master  # default: gh-pages
           publish_dir: ./public
