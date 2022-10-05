@@ -9,7 +9,7 @@ authors:
 - Matthieu Crussière
 
 date: 2022-06-20T00:17:56+02:00
-doi: ""
+doi: "10.1109/SPAWC51304.2022.9834035"
 
 # Schedule page publish date (NOT publication's date).
 publishDate: 2022-06-20T00:17:56+02:00
