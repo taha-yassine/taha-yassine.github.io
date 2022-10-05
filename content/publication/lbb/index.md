@@ -49,7 +49,7 @@ featured: true
 url_pdf: 'https://arxiv.org/pdf/2201.01386.pdf'
 url_code: ''
 url_dataset: ''
-url_poster: ''
+url_poster: 'poster.pdf'
 url_project: ''
 url_slides: ''
 url_source: ''
