@@ -73,4 +73,20 @@ $$&lt;/p>
 &lt;p>$$
 \mathbf{H}=\sqrt{NM}\alpha e^{-j\phi}e^{-j2\pi f\tau}\mathbf{a}_h^\top\otimes\mathbf{a}_v.
 $$&lt;/p>
-&lt;p>It is worth noting that the same procedure could be used to derive the formula for different configurations of antenna arrays (ULA, circular, cylindrical…).&lt;/p></description></item></channel></rss>
+&lt;p>It is worth noting that the same procedure could be used to derive the formula for different configurations of antenna arrays (ULA, circular, cylindrical…).&lt;/p>
+&lt;p>Bellow is an interactive figure of a UPA showing the distance $d$ (green segment) of one of its antenna elements (blue dots) to the wavefront (blue plane). You can move the red dot around to see how $d$ changes depending on the direction of arrival.&lt;/p>
+&lt;script src="https://www.geogebra.org/apps/deployggb.js">&lt;/script>
+&lt;script>
+var params = {
+"filename": "UPA.ggb",
+"appName": "3d",
+"width": 800,
+"height": 600,
+"enableRightClick": false,
+};
+var applet = new GGBApplet(params, true);
+window.addEventListener("load", function() {
+applet.inject('ggb-element');
+});
+&lt;/script>
+&lt;div id="ggb-element">&lt;/div></description></item></channel></rss>
