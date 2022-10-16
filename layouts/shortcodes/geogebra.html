@@ -1,0 +1,15 @@
+<script src="https://www.geogebra.org/apps/deployggb.js"></script>
+<script>  
+    var params = {
+            "filename": "{{ .Get 0 }}",
+            "appName": "3d",
+            "width": 800,
+            "height": 600,
+            "enableRightClick": false,
+        };
+    var applet = new GGBApplet(params, true);
+    window.addEventListener("load", function() { 
+        applet.inject('ggb-element');
+    });
+</script>
+<div id="ggb-element"></div> 
