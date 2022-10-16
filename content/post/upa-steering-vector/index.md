@@ -39,7 +39,7 @@ categories:
  
 _build:
   render: always
-  list: never
+  list: always
 ---
 
 In this article I will explain how the steering vector (or spatial signature) of a uniform planar area can be derived in a very simple and visual way.
@@ -134,3 +134,7 @@ $$
 $$
 
 It is worth noting that the same procedure could be used to derive the formula for different configurations of antenna arrays (ULA, circular, cylindrical…).
+
+Bellow is an interactive figure of a UPA showing the distance $d$ (green segment) of one of its antenna elements (blue dots) to the wavefront (blue plane). You can move the red dot around to see how $d$ changes depending on the direction of arrival.
+
+{{< geogebra UPA.ggb >}}
