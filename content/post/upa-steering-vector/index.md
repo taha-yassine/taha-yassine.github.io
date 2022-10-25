@@ -32,7 +32,8 @@ authors:
 - admin
 
 tags:
-- Academic
+- Signal Processing
+- MIMO
 
 categories:
 - Wireless Communications
