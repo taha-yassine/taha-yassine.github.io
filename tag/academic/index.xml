@@ -1,95 +1,93 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Academic | Taha Yassine</title><link>https://tahayassine.me/tag/academic/</link><atom:link href="https://tahayassine.me/tag/academic/index.xml" rel="self" type="application/rss+xml"/><description>Academic</description><generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Sun, 13 Dec 2020 00:00:00 +0000</lastBuildDate><image><url>https://tahayassine.me/media/icon_huecf151563ab8d381649e162e44411916_11613_512x512_fill_lanczos_center_3.png</url><title>Academic</title><link>https://tahayassine.me/tag/academic/</link></image><item><title>UPA phased antenna array steering vector derivation</title><link>https://tahayassine.me/post/upa-steering-vector/</link><pubDate>Sun, 13 Dec 2020 00:00:00 +0000</pubDate><guid>https://tahayassine.me/post/upa-steering-vector/</guid><description>&lt;p>In this article I will explain how the steering vector (or spatial signature) of a uniform planar area can be derived in a very simple and visual way.&lt;/p>
-&lt;p>Let’s start by writing down the frequency response $h$ of a single receive antenna:&lt;/p>
-&lt;p>$$
-h = \alpha e^{-j(2\pi f\tau + \phi)}.
-$$&lt;/p>
-&lt;p>In wireless communications, the wavefronts of an antenna emitting in all directions are spherical. However, one can assume that when the distance to the transmitter is sufficiently big, the wavefronts can be reasonably approximated by planes. In other words, the curvature of the sphere of big radius is small enough for the local patches to be approximated by their tangent planes, as show on figure 1. This assumption greatly simplifies calculations. One can observe that a plane wave travels in the direction normal to its plane, represented by the unit vector $\vec{u}$. In the case of the plane wave model, this direction is aligned with the radius of the sphere.&lt;/p>
-&lt;p>
-&lt;figure id="figure-the-plane-wave-assumption-holds-for-receivers-at-a-great-distance-from-the-transmitter">
-&lt;div class="d-flex justify-content-center">
-&lt;div class="w-100" >&lt;img alt="Figure 1"
-src="https://tahayassine.me/post/upa-steering-vector/plane_wave_assumption.svg"
-loading="lazy" data-zoomable />&lt;/div>
-&lt;/div>&lt;figcaption>
-The plane wave assumption holds for receivers at a great distance from the transmitter.
-&lt;/figcaption>&lt;/figure>
-&lt;/p>
-&lt;p>Let’s now start by considering two receive antennas $A$ and $B$ close enough to each other on the scale of the wavelength. Antenna $A$ is placed at the origin of a three-dimensional Cartesian space while antenna $B$ is at position $\vec{p}$ as shown on the figure bellow.&lt;/p>
-&lt;p>
-&lt;figure >
-&lt;div class="d-flex justify-content-center">
-&lt;div class="w-100" >&lt;img alt="Figure 2"
-src="https://tahayassine.me/post/upa-steering-vector/two_antennas.svg"
-loading="lazy" data-zoomable />&lt;/div>
-&lt;/div>&lt;/figure>
-&lt;/p>
-&lt;p>The frequency responses $h_1$ and $h_2$ corresponding to the first and second antenna respectively are as follows:&lt;/p>
-&lt;p>$$
-h_1=\alpha e^{-j\phi}e^{-j2\pi f\tau} \quad \text{and} \quad h_2=\alpha e^{-j\phi}e^{-j2\pi (f\tau+\frac{d}{\lambda})},
-$$&lt;/p>
-&lt;p>where $d$ is the distance the wave needs to further travel from the first antenna to attain the second antenna, assuming it is small enough for $\alpha$ to remain unchanged.&lt;/p>
-&lt;p>The objective now is to determine this distance knowing the position $\vec{p}$ of antenna $B$ relative to antenna $A$, and the direction of arrival (DoA) of the wave $\vec{u}$ (i.e. the unit normal to the wave plane). If the antenna $B$ is placed such that $\vec{p}$ is aligned with $\vec{u}$, then this distance is exactly the norm of $\vec{p}$ (i.e., $d=\Vert\vec{p}\Vert$). In the more general case however, this is not true. Luckily, we can easily derive the true quantity using simple geometry. Indeed, the distance $d$ is simply the distance between the two antennas orthogonally projected on the direction of travel of the wave:&lt;/p>
-$$
-\begin{equation}
-d = \vec{p}.\vec{u}.
-\label{eq:distance}
-\end{equation}
-$$
-&lt;aside>
-💡 If the signal reaches an antenna first before reaching the reference antenna, then the phase shift is negative, in which case we accept the abuse of terminology where a "distance" can be negative to reflect the distance the wave traveled from one point to the reference point. This works out well in this case as the scalar product changes sign.
-&lt;/aside>
-&lt;p>In the case of an antenna array, the same principle holds: for each antenna, the objective is finding the distance the wave needs to further travel from one reference antenna to the rest of the antennas. Formally, for a UPA of size $N\times M$, we define a matrix $\mathbf{D}$ of those distances where each element corresponds to one antenna:&lt;/p>
-$$
-\mathbf{D}=\begin{bmatrix}
-d_{1,1} &amp; \dots &amp; d_{1,M}\\
-\vdots &amp; \ddots &amp; \vdots\\
-d_{N,1} &amp; \dots &amp; d_{N,M}
-\end{bmatrix}.
-$$
-&lt;p>For ease of notation, let&amp;rsquo;s take the top left antenna as reference. It follows that $d_{1,1}=0$. Using $\eqref{eq:distance}$ we have:&lt;/p>
-$$
-\mathbf{D}=\begin{bmatrix}
-\vec{p}_{1,1}.\vec{u} &amp; \dots &amp; \vec{p}_{1,M}.\vec{u}\\
-\vdots &amp; \ddots &amp; \vdots\\
-\vec{p}_{N,1}.\vec{u} &amp; \dots &amp; \vec{p}_{N,M}.\vec{u}
-\end{bmatrix}.
-$$
-&lt;p>In the case of UPAs, the array elements are usually separated by half a wavelength both horizontally and vertically, meaning that if the array belongs to the $xz$-plane, then $\vec{p}_{m,n}=(-(m-1)\frac{\lambda}{2},0,-(n-1)\frac{\lambda}{2}),\ n\in[1..N],m\in[1..M]$.&lt;/p>
-&lt;p>On the other hand, $\vec{u}$ is equivalently represented by the azimuth and elevation angles of arrival, noted $\theta$ and $\varphi$ respectively. Converting from polar to Cartesian coordinates, we obtain $\vec{u}=(-\cos{\varphi}\cos{\theta},-\cos{\varphi}\sin{\theta},-\sin{\varphi})$. Finally, we obtain $\vec{p}_{m,n}.\vec{u}=(m-1)\frac{\lambda}{2}\cos \varphi \cos \theta + (n-1)\frac{\lambda}{2}\sin \varphi$. Matrix $\mathbf{D}$ then becomes:&lt;/p>
-$$
-\mathbf{D}=\begin{bmatrix}
-0 &amp; \dots &amp; (M-1)\frac{\lambda}{2}\cos \varphi \cos \theta\\
-\vdots &amp; \ddots &amp; \vdots\\
-(N-1)\frac{\lambda}{2}\sin \varphi &amp; \dots &amp; (M-1)\frac{\lambda}{2}\cos \varphi \cos \theta + (N-1)\frac{\lambda}{2}\sin \varphi
-\end{bmatrix}.
-$$
-&lt;p>This form greatly simplifies the expression of the channel matrix $\mathbf{H}$ of the UPA:&lt;/p>
-$$
-\mathbf{H}=\alpha e^{-j\phi}e^{-j2\pi f\tau}e^{-j\frac{2\pi}{\lambda}\mathbf{D}},
-$$
-&lt;p>where the last exponential is the element-wise operator.&lt;/p>
-&lt;p>One can then observe that $e^{-j\frac{2\pi}{\lambda}\mathbf{D}}$ can be written as the Kronecker product of two unit vectors:&lt;/p>
-$$
-e^{-j\frac{2\pi}{\lambda}\mathbf{D}} = \sqrt{NM}\mathbf{a}_h(\vec{u})^\top\otimes\mathbf{a}_v(\vec{u}),
-$$
-&lt;p>where $\mathbf{a}_h(\vec{u})=\frac{1}{\sqrt{M}}(1,\dots,e^{(M-1)\pi\cos{\varphi}\cos{\theta}})^\top$ and $\mathbf{a}_v(\vec{u})=\frac{1}{\sqrt{N}}(1,\dots,e^{(N-1)\pi\sin{\varphi}})^\top$. These are called the &lt;strong>steering vectors&lt;/strong> (or spatial signatures) of the antenna array. They are a function of the direction of arrival of the signal and fully describe the system. They are a convenient way to represent $\mathbf{H}$ whom final expression is:&lt;/p>
-$$
-\mathbf{H}=\sqrt{NM}\alpha e^{-j\phi}e^{-j2\pi f\tau}\mathbf{a}_h(\vec{u})^\top\otimes\mathbf{a}_v(\vec{u}).
-$$
-&lt;p>It is worth noting that the same procedure could be used to derive the formula for different configurations of antenna arrays (ULA, circular, cylindrical, etc.).&lt;/p>
-&lt;p>Because I believe that visualization greatly helps for geometrical concepts such as the one presented in this article, here&amp;rsquo;s an interactive figure of a UPA showing the distance $d$ (green segment) of one of its antenna elements (blue dots) to the wavefront (blue plane). You can move the red dot around to see how $d$ changes depending on the direction of arrival. Note that in this case the reference antenna is the one at the center of the array.&lt;/p>
-&lt;script src="https://www.geogebra.org/apps/deployggb.js">&lt;/script>
-&lt;script>
-var params = {
-"filename": "UPA.ggb",
-"appName": "3d",
-"width": 800,
-"height": 600,
-"enableRightClick": false,
-};
-var applet = new GGBApplet(params, true);
-window.addEventListener("load", function() {
-applet.inject('ggb-element');
-});
-&lt;/script>
-&lt;div id="ggb-element">&lt;/div></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Academic</title>
+    <link>https://tahayassine.me/tag/academic/</link>
+      <atom:link href="https://tahayassine.me/tag/academic/index.xml" rel="self" type="application/rss+xml" />
+    <description>Academic</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Sun, 13 Dec 2020 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://tahayassine.me/media/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_3.png</url>
+      <title>Academic</title>
+      <link>https://tahayassine.me/tag/academic/</link>
+    </image>
+    
+    <item>
+      <title>Welcome to Wowchemy, the website builder for Hugo</title>
+      <link>https://tahayassine.me/post/getting-started/</link>
+      <pubDate>Sun, 13 Dec 2020 00:00:00 +0000</pubDate>
+      <guid>https://tahayassine.me/post/getting-started/</guid>
+      <description>&lt;h2 id=&#34;overview&#34;&gt;Overview&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;The Wowchemy website builder for Hugo, along with its starter templates, is designed for professional creators, educators, and teams/organizations - although it can be used to create any kind of site&lt;/li&gt;
+&lt;li&gt;The template can be modified and customised to suit your needs. It&amp;rsquo;s a good platform for anyone looking to take control of their data and online identity whilst having the convenience to start off with a &lt;strong&gt;no-code solution (write in Markdown and customize with YAML parameters)&lt;/strong&gt; and having &lt;strong&gt;flexibility to later add even deeper personalization with HTML and CSS&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;You can work with all your favourite tools and apps with hundreds of plugins and integrations to speed up your workflows, interact with your readers, and much more&lt;/li&gt;
+&lt;/ol&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  id=&#34;figure-the-template-is-mobile-first-with-a-responsive-design-to-ensure-that-your-site-looks-stunning-on-every-device&#34;&gt;
+  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img src=&#34;https://raw.githubusercontent.com/wowchemy/wowchemy-hugo-modules/master/academic.png&#34; alt=&#34;The template is mobile first with a responsive design to ensure that your site looks stunning on every device.&#34; loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;figcaption&gt;
+      The template is mobile first with a responsive design to ensure that your site looks stunning on every device.
+    &lt;/figcaption&gt;&lt;/figure&gt;
+&lt;h2 id=&#34;get-started&#34;&gt;Get Started&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;👉 &lt;a href=&#34;https://wowchemy.com/templates/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;strong&gt;Create a new site&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;📚 &lt;a href=&#34;https://wowchemy.com/docs/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;strong&gt;Personalize your site&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;💬 &lt;a href=&#34;https://discord.gg/z8wNYzb&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Chat with the &lt;strong&gt;Wowchemy community&lt;/strong&gt;&lt;/a&gt; or &lt;a href=&#34;https://discourse.gohugo.io&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;strong&gt;Hugo community&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;🐦 Twitter: &lt;a href=&#34;https://twitter.com/wowchemy&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;@wowchemy&lt;/a&gt; &lt;a href=&#34;https://twitter.com/GeorgeCushen&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;@GeorgeCushen&lt;/a&gt; &lt;a href=&#34;https://twitter.com/search?q=%28%23MadeWithWowchemy%20OR%20%23MadeWithAcademic%29&amp;amp;src=typed_query&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;#MadeWithWowchemy&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;💡 &lt;a href=&#34;https://github.com/wowchemy/wowchemy-hugo-modules/issues&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Request a &lt;strong&gt;feature&lt;/strong&gt; or report a &lt;strong&gt;bug&lt;/strong&gt; for &lt;em&gt;Wowchemy&lt;/em&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;⬆️ &lt;strong&gt;Updating Wowchemy?&lt;/strong&gt; View the &lt;a href=&#34;https://wowchemy.com/docs/hugo-tutorials/update/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Update Tutorial&lt;/a&gt; and &lt;a href=&#34;https://wowchemy.com/updates/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Release Notes&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;crowd-funded-open-source-software&#34;&gt;Crowd-funded open-source software&lt;/h2&gt;
+&lt;p&gt;To help us develop this template and software sustainably under the MIT license, we ask all individuals and businesses that use it to help support its ongoing maintenance and development via sponsorship.&lt;/p&gt;
+&lt;h3 id=&#34;-click-here-to-become-a-sponsor-and-help-support-wowchemys-future-httpswowchemycomplans&#34;&gt;&lt;a href=&#34;https://wowchemy.com/plans/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;❤️ Click here to become a sponsor and help support Wowchemy&amp;rsquo;s future ❤️&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;As a token of appreciation for sponsoring, you can &lt;strong&gt;unlock &lt;a href=&#34;https://wowchemy.com/plans/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;these&lt;/a&gt; awesome rewards and extra features 🦄✨&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&#34;ecosystem&#34;&gt;Ecosystem&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href=&#34;https://github.com/wowchemy/hugo-academic-cli&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Hugo Academic CLI&lt;/a&gt;:&lt;/strong&gt; Automatically import publications from BibTeX&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;inspiration&#34;&gt;Inspiration&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://academic-demo.netlify.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Check out the latest &lt;strong&gt;demo&lt;/strong&gt;&lt;/a&gt; of what you&amp;rsquo;ll get in less than 10 minutes, or &lt;a href=&#34;https://wowchemy.com/user-stories/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;view the &lt;strong&gt;showcase&lt;/strong&gt;&lt;/a&gt; of personal, project, and business sites.&lt;/p&gt;
+&lt;h2 id=&#34;features&#34;&gt;Features&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Page builder&lt;/strong&gt; - Create &lt;em&gt;anything&lt;/em&gt; with &lt;a href=&#34;https://wowchemy.com/docs/page-builder/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;strong&gt;widgets&lt;/strong&gt;&lt;/a&gt; and &lt;a href=&#34;https://wowchemy.com/docs/content/writing-markdown-latex/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;strong&gt;elements&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Edit any type of content&lt;/strong&gt; - Blog posts, publications, talks, slides, projects, and more!&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Create content&lt;/strong&gt; in &lt;a href=&#34;https://wowchemy.com/docs/content/writing-markdown-latex/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;strong&gt;Markdown&lt;/strong&gt;&lt;/a&gt;, &lt;a href=&#34;https://wowchemy.com/docs/import/jupyter/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;strong&gt;Jupyter&lt;/strong&gt;&lt;/a&gt;, or &lt;a href=&#34;https://wowchemy.com/docs/install-locally/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;strong&gt;RStudio&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Plugin System&lt;/strong&gt; - Fully customizable &lt;a href=&#34;https://wowchemy.com/docs/customization/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;strong&gt;color&lt;/strong&gt; and &lt;strong&gt;font themes&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Display Code and Math&lt;/strong&gt; - Code highlighting and &lt;a href=&#34;https://en.wikibooks.org/wiki/LaTeX/Mathematics&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;LaTeX math&lt;/a&gt; supported&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Integrations&lt;/strong&gt; - &lt;a href=&#34;https://analytics.google.com&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Google Analytics&lt;/a&gt;, &lt;a href=&#34;https://disqus.com&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Disqus commenting&lt;/a&gt;, Maps, Contact Forms, and more!&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Beautiful Site&lt;/strong&gt; - Simple and refreshing one page design&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Industry-Leading SEO&lt;/strong&gt; - Help get your website found on search engines and social media&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Media Galleries&lt;/strong&gt; - Display your images and videos with captions in a customizable gallery&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Mobile Friendly&lt;/strong&gt; - Look amazing on every screen with a mobile friendly version of your site&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Multi-language&lt;/strong&gt; - 34+ language packs including English, 中文, and Português&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Multi-user&lt;/strong&gt; - Each author gets their own profile page&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Privacy Pack&lt;/strong&gt; - Assists with GDPR&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Stand Out&lt;/strong&gt; - Bring your site to life with animation, parallax backgrounds, and scroll effects&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;One-Click Deployment&lt;/strong&gt; - No servers. No databases. Only files.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;themes&#34;&gt;Themes&lt;/h2&gt;
+&lt;p&gt;Wowchemy and its templates come with &lt;strong&gt;automatic day (light) and night (dark) mode&lt;/strong&gt; built-in. Alternatively, visitors can choose their preferred mode - click the moon icon in the top right of the &lt;a href=&#34;https://academic-demo.netlify.com/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Demo&lt;/a&gt; to see it in action! Day/night mode can also be disabled by the site admin in &lt;code&gt;params.toml&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://wowchemy.com/docs/customization&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Choose a stunning &lt;strong&gt;theme&lt;/strong&gt; and &lt;strong&gt;font&lt;/strong&gt;&lt;/a&gt; for your site. Themes are fully customizable.&lt;/p&gt;
+&lt;h2 id=&#34;license&#34;&gt;License&lt;/h2&gt;
+&lt;p&gt;Copyright 2016-present &lt;a href=&#34;https://georgecushen.com&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;George Cushen&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Released under the &lt;a href=&#34;https://github.com/wowchemy/wowchemy-hugo-modules/blob/master/LICENSE.md&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;MIT&lt;/a&gt; license.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
