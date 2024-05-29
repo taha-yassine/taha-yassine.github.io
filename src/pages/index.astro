@@ -1,0 +1,184 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import PublicationList from "../components/PublicationList.astro";
+import ProjectList from "../components/ProjectList.astro";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
+import { Image } from 'astro:assets';
+import PFP from '../assets/pfp_cropped.jpeg';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<div class="container">
+			<Header title={SITE_TITLE} />
+			<main>
+				<Image
+					src={PFP}
+					alt="Picture of taken during my PhD defense"
+					class="profile-image"
+				/>
+				<p>
+					I'm an AI researcher/engineer. I received the PhD degree in
+					<i>machine learning</i> and <i>wireless communications</i> from the <a
+						href="https://www.insa-rennes.fr/graduate-school-of-engineering.html"
+						>INSA de Rennes</a
+					>. My research topics included <i>signal processing</i>, <i>wireless
+					communications</i> and <i>machine learning</i>/<i>deep learning</i>.
+				</p>
+				<p>
+					I now switched focus to NLP. I'm particularly interested in
+					topics related to LLMs including training, fine-tuning,
+					in-context learning, RAG, etc. I'm also a tinkerer and love
+					contributing to various open-source projects when I have time. I'm especially excited about projects integrating AI in creative ways. I'm currently taking some time off to work on some personal projects.
+				</p>
+				<p>
+					<a href="https://github.com/taha-yassine/nix-config"
+						>NixOS btw</a
+					>
+				</p>
+				<!-- Icons from https://github.com/adityatelange/hugo-PaperMod/blob/master/layouts/partials/svg.html -->
+				<div class="social-links">
+					<a href="https://twitter.com/taha_yssne" target="_blank">
+						<span class="sr-only">Follow Taha on Twitter</span>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						>
+							<path
+								d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"
+							>
+							</path>
+						</svg>
+					</a>
+					<a href="https://github.com/taha-yassine" target="_blank">
+						<span class="sr-only">Go to Taha's GitHub repo</span>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						>
+							<path
+								d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+							>
+							</path>
+						</svg>
+					</a>
+	
+					<a
+						href="https://www.linkedin.com/in/taha-yassine/"
+						target="_blank"
+					>
+						<span class="sr-only">Add Taha on LinkedIn</span>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						>
+							<path
+								d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"
+							></path>
+							<rect x="2" y="9" width="4" height="12"></rect>
+							<circle cx="4" cy="4" r="2"></circle>
+						</svg>
+					</a>
+					<a
+						href="https://scholar.google.com/citations?user=3w0dFIoAAAAJ"
+						target="_blank"
+					>
+						<span class="sr-only">Follow Taha on Google Scholar</span>
+						<svg
+							role="img"
+							viewBox="0 0 24 25"
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						>
+							<path
+								d="M5.242 13.769L0.5 9.5 12 1l11.5 9-5.242 3.769C17.548 11.249 14.978 9.5 12 9.5c-2.977 0-5.548 1.748-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"
+							></path>
+						</svg>
+					</a>
+					<a href="mailto:taha.yssne@gmail.com" target="_blank">
+						<span class="sr-only">Contact Taha</span>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 24 21"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						>
+							<path
+								d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+							></path>
+							<polyline points="22,6 12,13 2,6"></polyline>
+						</svg>
+					</a>
+				</div>
+	
+				<PublicationList />
+
+				<ProjectList />
+
+			</main>
+			<Footer />
+		</div>
+		<style>
+			.profile-image {
+				float: right;
+				width: 300px;
+				height: 300px;
+				border-radius: 50%;
+				shape-outside: circle();
+				margin-left: 40px;
+			}
+			@media (max-width: 600px) {
+				.profile-image {
+					float: none;
+					margin: 0 auto;
+					display: block;
+				}
+			}
+			.social-links {
+				display: flex;
+				justify-content: flex-start;
+				gap: 1em;
+				margin-top: 1.5em;
+			}
+			.social-links a {
+				text-decoration: none;
+				color: var(--gray-dark);
+			}
+			.social-links a:hover {
+				color: var(--accent);
+			}
+			.social-links a svg {
+				height: 26px;
+				widows: 26px;
+			}
+		</style>
+	</body>
+</html>

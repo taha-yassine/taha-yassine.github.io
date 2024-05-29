@@ -1,0 +1,3 @@
+[submodule "src/pages/projects/channel-simulation"]
+	path = src/pages/projects/channel-simulation
+	url = https://github.com/taha-yassine/channel-simulation

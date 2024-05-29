@@ -1,0 +1,89 @@
+---
+const projects = [
+  {
+    title: "Wireless Ray Tracer",
+    description: "Simple 2D wireless ray tracer for channel simulation.",
+    link: "/projects/channel-simulation",
+    github: "https://github.com/taha-yassine/channel-simulation",
+  },
+  {
+    title: "Wearther",
+    description: "Weather forecast app that gives outfit suggestions based on the weather forecast.",
+    github: "https://github.com/taha-yassine/Wearther",
+  },
+];
+---
+
+<section class="project-grid">
+  <h3>Projects</h3>
+  <hr />
+  <div class="grid">
+    {projects.map((project) => (
+      <div class="project-item">
+        <h4>{project.title}</h4>
+        <p class="description">{project.description}</p>
+        <div class="badges">
+          {project.github && (
+            <a href={project.github} target="_blank" rel="noopener noreferrer" class="badge">
+              GitHub
+            </a>
+          )}
+          {project.link && (
+            <a href={project.link} target="_blank" rel="noopener noreferrer" class="badge">
+              Demo
+            </a>
+          )}
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .project-grid {
+    margin: 1rem 0;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.6rem;
+  }
+
+  .project-item {
+    margin: 1rem 0;
+  }
+
+  .project-item h4 {
+    margin: 0;
+    font-size: 1.6rem;
+  }
+
+  .description {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+    color: var(--gray-light);
+  }
+
+  .project-item .badges {
+    margin-top: 0.5rem;
+  }
+
+  .project-item .badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    margin-right: 0.5rem;
+    font-size: 0.8rem;
+    /* font-weight: bold; */
+    color: var(--gray-dark);
+    text-decoration: none;
+    border-radius: 4px;
+    border: 1px solid var(--gray-dark);
+    /* transition: color 0.3s, background-color 0.3s; */
+  }
+
+  .project-item .badge:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+</style>

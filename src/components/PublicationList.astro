@@ -1,0 +1,126 @@
+---
+const publications = [
+  {
+    title: "Leveraging triplet loss and nonlinear dimensionality reduction for on-the-fly channel charting",
+    authors: "Taha Yassine, Luc Le Magoarou, Stéphane Paquelet, Matthieu Crussière",
+    journal: "IEEE SPAWC",
+    year: 2022,
+    link: "https://ieeexplore.ieee.org/abstract/document/9834035/",
+    pdf: "https://arxiv.org/pdf/2204.13996",
+    citation: "https://example.com/publication1/cite",
+  },
+  {
+    title: "mpNet: variable depth unfolded neural network for massive MIMO channel estimation",
+    authors: "Taha Yassine, Luc Le Magoarou",
+    journal: "IEEE TWC",
+    year: 2022,
+    link: "https://ieeexplore.ieee.org/abstract/document/9690064/",
+    pdf: "https://arxiv.org/pdf/2008.04088",
+    citation: "https://example.com/publication1/cite",
+  },
+  {
+    title: "Optimizing Multicarrier Multiantenna Systems for LoS Channel Charting",
+    authors: "Taha Yassine, Luc Le Magoarou, Matthieu Crussière, Stéphane Paquelet",
+    journal: "Pre-print",
+    year: 2024,
+    link: "https://arxiv.org/abs/2310.03762",
+    pdf: "https://arxiv.org/pdf/2310.03762",
+  },
+  // Add more publications as needed
+];
+---
+
+<section class="publication-list">
+  <h3>Selected Publications</h3>
+  <hr />
+  <ul>
+    {publications.map((publication) => (
+      <li>
+        <a href={publication.link} target="_blank" rel="noopener noreferrer">
+          {publication.title}
+        </a>
+        <br />
+        <span class="authors">
+          {publication.authors.split(', ').map((author, index) => (
+            <span key={index}>
+              {author.toLowerCase() === 'taha yassine' ? <u>{author}</u> : author}
+              {index < publication.authors.split(', ').length - 1 && ', '}
+            </span>
+          ))}
+        </span>
+        <br />
+        <span class="journal">{publication.journal}</span>
+        <span class="year">({publication.year})</span>
+        <div class="badges">
+          {publication.pdf && (
+            <a href={publication.pdf} target="_blank" rel="noopener noreferrer" class="badge pdf-badge">
+              PDF
+            </a>
+          )}
+          {/* {publication.citation && (
+            <a href={publication.citation} target="_blank" rel="noopener noreferrer" class="badge citation-badge">
+              Cite
+            </a>
+          )} */}
+        </div>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .publication-list {
+    margin: 1rem 0;
+  }
+
+  /* .publication-list h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  } */
+
+  .publication-list ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  .publication-list li {
+    margin-bottom: 1rem;
+  }
+
+  .publication-list a {
+    font-weight: bold;
+    text-decoration: none;
+  }
+
+  .publication-list .authors {
+    color: var(--gray-light);
+    font-style: italic;
+  }
+
+  .publication-list .journal, .publication-list .year {
+    color: var(--gray-light);
+  }
+
+  .publication-list .badges {
+    margin-top: 0.5rem;
+  }
+
+  .publication-list .badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    margin-right: 0.5rem;
+    font-size: 0.8rem;
+    /* font-weight: bold; */
+    color: var(--gray-dark);
+    text-decoration: none;
+    border-radius: 4px;
+    border: 1px solid var(--gray-dark); 
+    /* transition: color 0.3s, background-color 0.3s; */
+  }
+
+  .publication-list .badge:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
+</style>
