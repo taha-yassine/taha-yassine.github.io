@@ -1,0 +1,18 @@
+---
+title: Understanding the temperature parameter in language models 
+
+description: How the temperature parameter in language models affects text generation.
+
+pubDate: "2024-06-03"
+---
+Text generation is the task of generating the next word or sequence of words given a context. It is usually done using decoders, such as GPT-2 and GPT-3, which are autoregressive language models. These models are trained to generate text by learning the probability distribution of the next word given the previous words in the sequence. The next word is sampled from this distribution according to a decoding strategy. The most straightforward decoding strategy is greedy decoding, where the word with the highest probability is always chosen. However, this can lead to repetitive and uncreative text. Better decoding strategies, such as beam search and sampling, can be used to generate more diverse and creative text. They aren't limited to the most probable word and consider some or all of the scores attributed by the model to the words in the vocabulary. The shape of the distribution is thus important in determining the quality and diversity of the generated text.
+
+More formally, the probability distribution of the next word is obtained by applying a softmax function to the output of the neural network. The softmax function normalizes the output scores into probabilities that sum to one. It is given by:
+
+$$
+P(y_t = w | y_{1:t-1}) = \frac{e^{\frac{L(w)}{T}}}{\sum_{w'} e^{\frac{L(w')}{T}}}
+$$
+
+where $L(w)$ is the logit value computed by the model for a word $w$ in the vocabulary, $y_t$ is the next word in the sequence, $y_{1:t-1}$ are the previous words in the sequence, and $T$ is the temperature parameter.
+
+The temperature parameter controls the entropy of the probability distribution. A higher temperature increases the entropy, which results in a more uniform distribution of probabilities. This allows the model to explore different possibilities and generate more creative text. On the other hand, a lower temperature results in a sharper distribution with higher peaks. This makes the model more confident in its predictions but can lead to repetitive and uncreative text. When the temperature parameter is set to zero, the model generates text that is deterministic. The model always predicts the word with the highest probability which is equivalent to greedy decoding.
