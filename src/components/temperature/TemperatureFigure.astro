@@ -24,8 +24,10 @@
             </div>
             <div id="temperature-control">
                 <h5>Temperature</h5>
-                <input type="range" id="temperature-slider" min="0" max="100" step="0.1" value="1">
-                <span id="temperature-value">1</span>
+                <div id="temperature-slider-container">
+                    <input type="range" id="temperature-slider" min="0" max="100" step="0.1" value="1">
+                    <span id="temperature-value">1</span>
+                </div>
             </div>
         </div>
     </div>
@@ -231,12 +233,20 @@
         margin-top: 20px;
     }
 
-    #temperature-control h5 {
-        margin-bottom: 10px;
+    #temperature-slider-container {
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
     }
 
-    #temperature-control input[type="range"] {
-        width: 80%;
-        margin-right: 10px;
+    #temperature-slider-container input[type="range"] {
+        flex-grow: 1;
+    }
+
+    #temperature-value {
+        font-size: 1rem;
+        text-align: center;
+        width: 35px;
     }
 </style>
