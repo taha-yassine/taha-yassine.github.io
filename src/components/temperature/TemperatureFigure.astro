@@ -1,0 +1,231 @@
+<text-processor>
+    <div id="container">
+        <div id="left">
+            <textarea id="input-text" placeholder="Enter some text">The quick brown fox</textarea>
+        </div>
+        <div id="right">
+            <div id="decoding-strategy">
+                <h5>Decoding Strategy</h5>
+                <button id="greedy-button">Greedy</button>
+                <button id="sampling-button">Top-K Sampling</button>
+                <!-- <button id="beam-search-button">Beam Search</button> -->
+            </div>
+            <div id="probability-distribution">
+                <div id="header">
+                    <h5>Probability Distribution</h5>
+                    <button id="refresh-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                            <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                        </svg>
+                    </button>
+                </div>
+                <div id="bar-chart-container"></div>
+            </div>
+            <div id="temperature-control">
+                <h5>Temperature</h5>
+                <input type="range" id="temperature-slider" min="0" max="100" step="0.1" value="1">
+                <span id="temperature-value">1</span>
+            </div>
+        </div>
+    </div>
+</text-processor>
+
+<script>
+    class TextProcessor extends HTMLElement {
+        worker: Worker;
+        tokens: string[] = [];
+        logits: number[] = [];
+        temperature: number = 1;
+
+        greedyButton: HTMLButtonElement;
+        refreshButton: HTMLButtonElement;
+        inputElement: HTMLInputElement;
+        barChartContainer: HTMLDivElement;
+        temperatureSlider: HTMLInputElement;
+        temperatureValue: HTMLSpanElement;
+
+        constructor() {
+            super();
+
+            this.worker = new Worker(new URL('./worker.js', import.meta.url), {
+                type: 'module'
+            });
+            
+            this.inputElement = this.querySelector("#input-text") as HTMLInputElement;
+
+            this.greedyButton = this.querySelector("#greedy-button") as HTMLButtonElement;
+
+            this.refreshButton = this.querySelector("#refresh-button") as HTMLButtonElement;
+
+            this.barChartContainer = this.querySelector("#bar-chart-container") as HTMLDivElement;
+
+            this.temperatureSlider = this.querySelector("#temperature-slider") as HTMLInputElement;
+            this.temperatureValue = this.querySelector("#temperature-value") as HTMLSpanElement;
+
+            this.refreshButton.addEventListener("click", () => {
+                this.worker.postMessage(this.inputElement.value);
+            });
+
+            this.greedyButton.addEventListener("click", () => {
+                if (this.tokens.length > 0) {
+                    this.inputElement.value += this.tokens[0];
+                    this.worker.postMessage(this.inputElement.value);
+                }
+            });
+
+            this.temperatureSlider.addEventListener("input", () => {
+                this.temperature = parseFloat(this.temperatureSlider.value);
+                this.temperatureValue.textContent = this.temperature.toString();
+                // TODO
+            });
+
+            // Handle worker response
+            this.worker.onmessage = (e) => {
+                switch (e.data.status) {
+                    case 'downloading':
+                        console.log('Downloading model...');
+                        break;
+                    case 'ready':
+                        console.log('Model is ready');
+                        break;
+                    case 'update':
+                        this.tokens = e.data.tokens;
+                        this.logits = e.data.logits;
+                        
+                        this.updateBarChart();
+                }
+            };
+        }
+
+        connectedCallback() {
+            this.worker.postMessage(this.inputElement.value);
+        }
+
+        updateBarChart() {
+            const chartWidth = this.barChartContainer.offsetWidth;
+            const maxLogit = Math.max(...this.logits);
+            const tokenLabelWidth = 50; // Adjust to match the width set in the CSS
+
+            this.barChartContainer.innerHTML = this.tokens.map((token, index) => {
+                const barWidth = maxLogit !== 0 ? (this.logits[index] / maxLogit) * (chartWidth - tokenLabelWidth - 10) : 0;
+                return `
+                    <div class="bar-container">
+                        <span class="token-label" data-token="${token}">${token}</span>
+                        <div class="bar" style="width: ${barWidth}px"></div>
+                    </div>
+                `;
+            }).join('');
+
+            this.barChartContainer.querySelectorAll('.token-label').forEach(label => {
+                label.addEventListener('click', this.handleTokenClick.bind(this));
+            });
+        }
+
+        handleTokenClick(event: MouseEvent) {
+            const clickedToken = (event.target as HTMLElement).getAttribute('data-token');
+            if (clickedToken) {
+                this.inputElement.value += clickedToken;
+                this.worker.postMessage(this.inputElement.value);
+            }
+        }
+    }
+
+    customElements.define("text-processor", TextProcessor);
+</script>
+
+<style>
+    #container {
+        display: flex;
+    }
+
+    #left {
+        flex: 1;
+    }
+
+    #right {
+        flex: 1;
+        margin-left: 20px;
+    }
+
+    h5 {
+        font-weight: 400;
+    }
+
+    #decoding-strategy {
+        margin-bottom: 20px;
+    }
+
+    #input-text {
+        height: 100%;
+        width: 90%;
+        resize: none;
+    }
+
+    #probability-distribution #header {
+        display: flex;
+        align-items: center;
+    }
+
+    #refresh-button {
+        background: none;
+        border: none;
+        padding: 0;
+        margin-left: 8px;
+        cursor: pointer;
+    }
+
+    #refresh-button svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    #bar-chart-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100%;
+        justify-content: flex-end;
+    }
+
+    :global(.bar-container) {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 2px;
+    }
+
+    :global(.bar) {
+        height: 5px;
+        background-color: #4CAF50;
+        margin-left: 5px;
+        border-radius: 0 5px 5px 0;
+    }
+
+    :global(.token-label) {
+        font-size: 1rem;
+        cursor: pointer;
+        margin-right: 5px;
+        display: inline-block;
+        width: 70px;
+        text-align: left;
+    }
+
+    :global(.token-label:hover) {
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    #temperature-control {
+        margin-top: 20px;
+    }
+
+    #temperature-control h5 {
+        margin-bottom: 10px;
+    }
+
+    #temperature-control input[type="range"] {
+        width: 80%;
+        margin-right: 10px;
+    }
+</style>
