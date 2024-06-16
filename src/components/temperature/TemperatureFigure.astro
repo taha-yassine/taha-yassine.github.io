@@ -137,6 +137,8 @@
 <style>
     #container {
         display: flex;
+        flex-wrap: wrap;
+        gap: 30px;
     }
 
     #left {
@@ -145,7 +147,16 @@
 
     #right {
         flex: 1;
-        margin-left: 20px;
+    }
+
+    @media (max-width: 768px) {
+        #left {
+            flex-basis: 100%;
+        }
+
+        #right {
+            flex-basis: 100%;
+        }
     }
 
     h5 {
@@ -158,7 +169,7 @@
 
     #input-text {
         height: 100%;
-        width: 90%;
+        width: 100%;
         resize: none;
     }
 
