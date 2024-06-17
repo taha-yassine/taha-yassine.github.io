@@ -50,7 +50,7 @@ onmessage = async (e) => {
     
     let sorted = sort(logits.data)
     
-    let topK = {values: sorted.values.slice(-K), indices: sorted.indices.slice(-K)};
+    let topK = {values: sorted.values.slice(0,K), indices: sorted.indices.slice(0,K)};
 
     // Insert a dimension for batch decoding
     let tokens = tokenizer.batch_decode(topK.indices.map(index => [index]), { skip_special_tokens: true });
@@ -61,11 +61,11 @@ onmessage = async (e) => {
     });
 }
 
-// Helper function to sort an array in ascending
+// Helper function to sort an array in descending
 // order and return the original indices
 function sort(arr) {
   const indices = Array.from(arr.keys());
-  indices.sort((a, b) => arr[a] - arr[b]);
+  indices.sort((a, b) => arr[b] - arr[a]);
   const sortedValues = new Float32Array(indices.map(index => arr[index]));
 
   return {
