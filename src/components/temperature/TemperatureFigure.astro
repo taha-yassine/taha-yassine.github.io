@@ -38,9 +38,11 @@
         worker: Worker;
         tokens: string[] = [];
         logits: number[] = [];
+        probs: number[] = [];
         temperature: number = 1;
 
         greedyButton: HTMLButtonElement;
+        samplingButton: HTMLButtonElement;
         refreshButton: HTMLButtonElement;
         inputElement: HTMLInputElement;
         barChartContainer: HTMLDivElement;
@@ -57,6 +59,7 @@
             this.inputElement = this.querySelector("#input-text") as HTMLInputElement;
 
             this.greedyButton = this.querySelector("#greedy-button") as HTMLButtonElement;
+            this.samplingButton = this.querySelector("#sampling-button") as HTMLButtonElement;
 
             this.refreshButton = this.querySelector("#refresh-button") as HTMLButtonElement;
 
@@ -72,6 +75,13 @@
             this.greedyButton.addEventListener("click", () => {
                 if (this.tokens.length > 0) {
                     this.inputElement.value += this.tokens[0];
+                    this.worker.postMessage(this.inputElement.value);
+                }
+            });
+            this.samplingButton.addEventListener("click", () => {
+                if (this.tokens.length > 0) {
+                    const sample = this.multinomialSample(this.probs);
+                    this.inputElement.value += this.tokens[sample];
                     this.worker.postMessage(this.inputElement.value);
                 }
             });
@@ -110,13 +120,13 @@
         // but it's good enough for this demo
         updateBarChart() {
             // Use log softmax as it's more numerically stable
-            const probs = this.logSoftmax(this.logits, this.temperature).map(prob => Math.exp(prob));
+            this.probs = this.logSoftmax(this.logits, this.temperature).map(prob => Math.exp(prob));
 
             this.barChartContainer.innerHTML = this.tokens.map((token, index) => {
                 return `
                     <div class="bar-container">
                         <span class="token-label" data-token="${token}">${token.replace(/[^\S\r\n]/g,'␣').replace(/\n/g, '\\n')}</span>
-                        <div class="bar" style="flex: ${probs[index]}"></div>
+                        <div class="bar" style="flex: ${this.probs[index]}"></div>
                     </div>
                 `;
             }).join('');
@@ -143,6 +153,18 @@
             const logExpSum = Math.log(expSum);
             
             return scaledLogits.map(val => val - maxVal - logExpSum);
+        }
+
+        multinomialSample(probs: number[]) {
+            const r = Math.random();
+            let sum = 0;
+            for (let i = 0; i < probs.length; i++) {
+                sum += probs[i];
+                if (r <= sum) {
+                    return i;
+                }
+            }
+            return probs.length - 1;
         }
     }
 
