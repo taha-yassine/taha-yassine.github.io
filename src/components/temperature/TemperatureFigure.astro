@@ -25,7 +25,7 @@
             <div id="temperature-control">
                 <h5>Temperature</h5>
                 <div id="temperature-slider-container">
-                    <input type="range" id="temperature-slider" min="0" max="100" step="0.1" value="1">
+                    <input type="range" id="temperature-slider" min="0.1" max="10" step="0.1" value="1">
                     <span id="temperature-value">1</span>
                 </div>
             </div>
@@ -79,7 +79,8 @@
             this.temperatureSlider.addEventListener("input", () => {
                 this.temperature = parseFloat(this.temperatureSlider.value);
                 this.temperatureValue.textContent = this.temperature.toString();
-                // TODO
+                
+                this.updateBarChart();
             });
 
             // Handle worker response
@@ -104,17 +105,18 @@
             this.worker.postMessage(this.inputElement.value);
         }
 
+        // We cheat a bit as the softmax is computed wrt the top K
+        // tokens when it should be computed wrt the whole vocab,
+        // but it's good enough for this demo
         updateBarChart() {
-            const chartWidth = this.barChartContainer.offsetWidth;
-            const maxLogit = Math.max(...this.logits);
-            const tokenLabelWidth = 50; // Adjust to match the width set in the CSS
+            // Use log softmax as it's more numerically stable
+            const probs = this.logSoftmax(this.logits, this.temperature).map(prob => Math.exp(prob));
 
             this.barChartContainer.innerHTML = this.tokens.map((token, index) => {
-                const barWidth = maxLogit !== 0 ? (this.logits[index] / maxLogit) * (chartWidth - tokenLabelWidth - 10) : 0;
                 return `
                     <div class="bar-container">
-                        <span class="token-label" data-token="${token}">${token}</span>
-                        <div class="bar" style="width: ${barWidth}px"></div>
+                        <span class="token-label" data-token="${token}">${token.replace(/[^\S\r\n]/g,'␣').replace(/\n/g, '\\n')}</span>
+                        <div class="bar" style="flex: ${probs[index]}"></div>
                     </div>
                 `;
             }).join('');
@@ -130,6 +132,17 @@
                 this.inputElement.value += clickedToken;
                 this.worker.postMessage(this.inputElement.value);
             }
+        }
+
+        // Stable implementation of log_softmax
+        // See https://github.com/scipy/scipy/blob/v1.13.1/scipy/special/_logsumexp.py#L237-L307
+        logSoftmax(logits: number[], temperature: number) {
+            const scaledLogits = logits.map(logit => logit / temperature);
+            const maxVal = Math.max(...scaledLogits);
+            const expSum = scaledLogits.reduce((sum, val) => sum + Math.exp(val - maxVal), 0);
+            const logExpSum = Math.log(expSum);
+            
+            return scaledLogits.map(val => val - maxVal - logExpSum);
         }
     }
 
@@ -193,35 +206,25 @@
         height: 16px;
     }
 
-    #bar-chart-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        height: 100%;
-        justify-content: flex-end;
-    }
-
     :global(.bar-container) {
         display: flex;
         align-items: center;
         width: 100%;
-        margin-bottom: 2px;
+        height: 30px;
+        gap: 10px;
     }
 
     :global(.bar) {
-        height: 5px;
+        height: 10px;
         background-color: #4CAF50;
-        margin-left: 5px;
         border-radius: 0 5px 5px 0;
     }
 
     :global(.token-label) {
         font-size: 1rem;
         cursor: pointer;
-        margin-right: 5px;
-        display: inline-block;
-        width: 70px;
-        text-align: left;
+        width: 120px;
+        text-align: center;
     }
 
     :global(.token-label:hover) {
