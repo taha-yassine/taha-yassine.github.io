@@ -5,17 +5,26 @@ const projects = [
     description: "A demo showing the impact of the temperature on LLMs. Built using Transformers.js.",
     link: "/blog/temperature/#temperature-figure",
     github: "https://github.com/taha-yassine/taha-yassine.github.io/tree/master/src/components/temperature",
+    wip: false,
+  },
+  {
+    title: "Writing Assistant",
+    description: "A writing assistant that helps you fix and improve your writing. Think Grammarly but open-source.",
+    github: "https://github.com/taha-yassine/writing-assistant",
+    wip: true,
   },
   {
     title: "Wireless Ray Tracer",
     description: "Simple 2D wireless ray tracer for channel simulation.",
     link: "https://tahayassine.me/channel-simulation",
     github: "https://github.com/taha-yassine/channel-simulation",
+    wip: false,
   },
   {
     title: "Wearther",
     description: "Weather forecast app that gives outfit suggestions based on the weather forecast.",
     github: "https://github.com/taha-yassine/Wearther",
+    wip: false,
   },
 ];
 ---
@@ -26,7 +35,10 @@ const projects = [
   <div class="grid">
     {projects.map((project) => (
       <div class="project-item">
-        <h4>{project.title}</h4>
+        <h4>
+          {project.title}
+          {project.wip && <span class="wip-badge"> WIP</span>}
+        </h4>
         <p class="description">{project.description}</p>
         <div class="badges">
           {project.github && (
@@ -91,5 +103,16 @@ const projects = [
   .project-item .badge:hover {
     color: var(--accent);
     border-color: var(--accent);
+  }
+
+  .wip-badge {
+    display: inline-block;
+    padding: 0.1rem 0.3rem;
+    margin-left: 0.5rem;
+    font-size: 0.7rem;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 4px;
+    vertical-align: middle;
   }
 </style>
