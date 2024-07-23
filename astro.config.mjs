@@ -13,7 +13,13 @@ export default defineConfig({
 	site: 'https://example.com',
 	integrations: [mdx(), sitemap()],
 	markdown: {
+		// LaTeX
 		remarkPlugins: [remarkMath],
-		rehypePlugins: [[rehypeMathjax, {tex:{tags:'ams'}}]]
+		rehypePlugins: [[rehypeMathjax, {tex:{tags:'ams'}}]],
+
+		// Syntax highlighting
+		shikiConfig: {
+			wrap: true,
+		},
 	}
 });

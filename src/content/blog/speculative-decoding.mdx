@@ -9,3 +9,39 @@ pubDate: "2024-07-20"
 Autoregressive language models work by generating tokens one after the other. The sequential nature of this process makes it inherently slow. Slow responses can make the experience of using these models frustrating, especially in settings where high throughput is essential, like in multi-turn dialogue systems. Intuitively, the most straightforward way to speed up the generation process is to alleviate hardware bottlenecks such as bandwidth or compute speed by chasing after the latest and greatest hardware. However, this approach is not sustainable, especially when a single company has a monopoly over the chip market{/* Add reference */}. Fortunatly, the LLM optimization space is full of low-hanging fruits waiting to be picked.{/* Add more info */}
 
 One line of work that has been gaining traction recently is _speculative decoding_. The idea is to try to predict the next $n$ tokens in a cheap and often inaccurate way, with the hope that some of the predictions match the real tokens that the model would have generated. In this post I will give an overview of some speculative decoding techniques that I find interesting.
+
+## The basic idea
+
+```python
+def speculative_decoding(prefix, max_length, num_tokens):
+    # Initialize output with the prefix
+    output = prefix
+    
+    while len(output) < max_length:
+        # Generate a draft continuation of `num_tokens` consecutive tokens
+        draft = generate_draft(output, num_tokens=num_tokens)
+        
+        # Combine the current output with the draft continuation
+        speculative_output = output + draft
+        
+        # Generate probabilities for each token using the availabe model
+        probs = model.get_probabilities(speculative_output)
+        
+        # Compare draft tokens with model probabilities
+        accepted_tokens = []
+        for i, token in enumerate(draft):
+            if token == argmax(probs[len(output) + i]):
+                accepted_tokens.append(token)
+            else:
+                break
+        
+        # Update output with accepted tokens
+        output += ''.join(accepted_tokens)
+        
+        # If no tokens were accepted, generate a single token using the target model
+        if not accepted_tokens:
+            next_token = argmax(model.get_probabilities(output)[-1])
+            output += next_token
+    
+    return output
+```
