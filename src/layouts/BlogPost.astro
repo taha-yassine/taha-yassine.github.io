@@ -23,6 +23,7 @@ const { title, description, pubDate, updatedDate, heroImage, headings } = Astro.
 				<Header title={title} />
 				<div class="title">
 					<h1>{title}</h1>
+					{description && <div class="description">{description}</div>}
 					<div class="date">
 						<FormattedDate date={pubDate} />
 						{
@@ -90,6 +91,11 @@ const { title, description, pubDate, updatedDate, heroImage, headings } = Astro.
 			}
 			.title h1 {
 				margin: 0 0 0.5em 0;
+			}
+			.description {
+				margin-bottom: 0.5em;
+				color: var(--gray-light);
+				font-size: 1.1em;
 			}
 			.date {
 				margin-bottom: 0.5em;
