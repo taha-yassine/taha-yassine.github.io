@@ -55,7 +55,6 @@ const { title, description, pubDate, updatedDate, heroImage, headings } = Astro.
 			.page {
 				display: grid;
 				grid-template-columns: 1fr minmax(0, 800px) 1fr;
-				column-gap: 32px;
 			}
 			.header-section {
 				grid-column: 2;
@@ -74,7 +73,7 @@ const { title, description, pubDate, updatedDate, heroImage, headings } = Astro.
 			.container main {
 				padding: 0 1em;
 			}
-			@media (max-width: 1400px) {
+			@media (max-width: 1200px) {
 				.rail-left {
 					display: none;
 				}
