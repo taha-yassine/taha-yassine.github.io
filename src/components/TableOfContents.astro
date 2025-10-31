@@ -1,0 +1,169 @@
+---
+interface Heading { depth: number; slug: string; text: string }
+const { headings = [] }: { headings?: Heading[] } = Astro.props;
+---
+
+<nav class="toc" id="table-of-contents" aria-labelledby="toc-heading">
+	<h2 id="toc-heading" class="sr-only">Table of contents</h2>
+	{headings.length > 0 && (
+		<ul class="toc-list">
+			<li class="toc-item toc-level-2">
+				<a href="#top">Introduction</a>
+			</li>
+			{headings
+				.filter((h) => h.depth >= 2 && h.depth <= 4)
+				.map((h) => (
+					<li class={`toc-item toc-level-${h.depth}`}>
+						<a href={`#${h.slug}`}>{h.text}</a>
+					</li>
+				))}
+		</ul>
+	)}
+</nav>
+
+<script>
+	const toc = document.getElementById('table-of-contents');
+	if (toc) {
+		const links = Array.from(toc.querySelectorAll('a'));
+		const ids = links
+			.map((a) => decodeURIComponent(a.getAttribute('href')?.slice(1) || ''))
+			.filter(Boolean);
+
+		function setActive(id) {
+			for (const a of links) {
+				const active = a.getAttribute('href') === `#${id}`;
+				a.classList.toggle('active', active);
+				if (active) a.setAttribute('aria-current', 'location');
+				else a.removeAttribute('aria-current');
+			}
+		}
+
+		const OFFSET = 80;
+		const HASH_PRIORITY_THRESHOLD = 200; // Extra margin for hash-based selection
+
+		function computeActive() {
+			const hash = decodeURIComponent(location.hash.slice(1));
+			if (hash && hash !== 'top' && ids.includes(hash)) {
+				const hashEl = document.getElementById(hash);
+				if (hashEl) {
+					const top = hashEl.getBoundingClientRect().top;
+					if (top >= 0 && top <= OFFSET + HASH_PRIORITY_THRESHOLD) {
+						setActive(hash);
+						return;
+					}
+				}
+			}
+
+			// Otherwise, find the last heading at or above the offset
+			let active = 'top';
+			for (const id of ids) {
+				const el = document.getElementById(id);
+				if (!el) continue;
+				const top = el.getBoundingClientRect().top;
+				if (top <= OFFSET) {
+					active = id;
+				} else {
+					break;
+				}
+			}
+
+			setActive(active);
+		}
+
+		let ticking = false;
+		function onScroll() {
+			if (ticking) return;
+			ticking = true;
+			requestAnimationFrame(() => {
+				computeActive();
+				ticking = false;
+			});
+		}
+
+		window.addEventListener('scroll', onScroll, { passive: true });
+		window.addEventListener('resize', onScroll);
+		window.addEventListener('hashchange', () => {
+			setTimeout(computeActive, 100);
+		});
+
+		// Handle initial hash and wait for any smooth scroll to complete
+		if (location.hash) {
+			setTimeout(computeActive, 100);
+		}
+		computeActive();
+	}
+</script>
+
+<style>
+	.toc {
+		position: sticky;
+		top: 32px;
+		padding: 0.75em;
+		max-width: 250px;
+		max-height: calc(100vh - 4em);
+		overflow-y: auto;
+	}
+
+	.toc-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	.toc :global(.toc-item) {
+		margin-bottom: 0.4em;
+		line-height: 1.4;
+	}
+
+	.toc :global(.toc-item a) {
+		color: var(--gray-light);
+		text-decoration: none;
+		display: block;
+		transition: color 0.2s;
+		font-size: 0.8em;
+	}
+
+	.toc :global(.toc-level-3 a) {
+		font-size: 0.75em;
+	}
+
+	.toc :global(.toc-level-4 a) {
+		font-size: 0.7em;
+	}
+
+	.toc :global(.toc-item a:hover) {
+		color: var(--accent);
+		opacity: 1;
+	}
+
+	.toc :global(.toc-item a:focus-visible) {
+		outline: 2px solid var(--accent);
+		outline-offset: 2px;
+	}
+
+	.toc :global(.toc-item a.active),
+	.toc :global(.toc-item a[aria-current="location"]) {
+		color: var(--accent);
+		font-weight: 500;
+		opacity: 1;
+	}
+
+	.toc :global(.toc-level-2) {
+		padding-left: 0;
+	}
+
+	.toc :global(.toc-level-3) {
+		padding-left: 1.25em;
+	}
+
+	.toc :global(.toc-level-4) {
+		padding-left: 2.5em;
+	}
+
+	@media (max-width: 1400px) {
+		.toc {
+			display: none;
+		}
+	}
+</style>
+

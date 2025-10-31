@@ -110,6 +110,9 @@ img {
 	height: auto;
 	border-radius: 8px;
 }
+.prose :where(h2, h3, h4) {
+	scroll-margin-top: 96px;
+}
 code {
 	padding: 2px 5px;
 	background-color: var(--gray-light);

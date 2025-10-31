@@ -4,10 +4,12 @@ import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
+import TableOfContents from '../components/TableOfContents.astro';
 
-type Props = CollectionEntry<'blog'>['data'];
+interface Heading { depth: number; slug: string; text: string }
+type Props = CollectionEntry<'blog'>['data'] & { headings?: Heading[] };
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, headings } = Astro.props;
 ---
 
 <html lang="en">
@@ -16,44 +18,75 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 	</head>
 
 	<body>
-		<div class="container">
-			<Header title={title} />
-			<main>
-				<article>
-					<div class="prose">
-						<div class="title">
-							<h1>{title}</h1>
-							<div class="date">
-								<FormattedDate date={pubDate} />
-								{
-									updatedDate && (
-										<div class="last-updated-on">
-											Last updated on <FormattedDate date={updatedDate} />
-										</div>
-									)
-								}
-							</div>
-							<hr />
-						</div>
-						<slot />
+		<div class="page">
+			<div class="header-section">
+				<Header title={title} />
+				<div class="title">
+					<h1>{title}</h1>
+					<div class="date">
+						<FormattedDate date={pubDate} />
+						{
+							updatedDate && (
+								<div class="last-updated-on">
+									Last updated on <FormattedDate date={updatedDate} />
+								</div>
+							)
+						}
 					</div>
-				</article>
-			</main>
-			<Footer />
+					<hr />
+				</div>
+			</div>
+			<aside class="rail-left" aria-labelledby="toc-heading" role="complementary">
+				<TableOfContents headings={headings} />
+			</aside>
+			<div class="container">
+				<main>
+					<article id="top">
+						<div class="prose">
+							<slot />
+						</div>
+					</article>
+				</main>
+				<Footer />
+			</div>
 		</div>
 		<style>
-			.container {
+			.page {
+				display: grid;
+				grid-template-columns: 1fr minmax(0, 800px) 1fr;
+				column-gap: 32px;
+			}
+			.header-section {
+				grid-column: 2;
 				max-width: 800px;
 				margin: 0 auto;
 			}
+			.rail-left {
+				grid-column: 1;
+				justify-self: end;
+			}
+			.container {
+				max-width: 800px;
+				margin: 0 auto;
+				grid-column: 2;
+			}
+			.container main {
+				padding: 0 1em;
+			}
+			@media (max-width: 1400px) {
+				.rail-left {
+					display: none;
+				}
+			}
 			.prose {
 				width: 100%;
-				padding: 1em 0;
 				color: var(--gray-dark);
 			}
 			.title {
 				margin-bottom: 1em;
+				padding: 1em 1em 0;
 				text-align: left;
+				width: 100%;
 			}
 			.title h1 {
 				margin: 0 0 0.5em 0;
