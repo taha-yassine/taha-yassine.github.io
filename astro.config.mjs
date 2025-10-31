@@ -14,6 +14,12 @@ export default defineConfig({
 	integrations: [mdx(), sitemap()],
 	markdown: {
 		remarkPlugins: [remarkMath],
-		rehypePlugins: [[rehypeMathjax, {tex:{tags:'ams'}}]]
+		rehypePlugins: [[rehypeMathjax, {tex:{tags:'ams'}}]],
+
+		// Syntax highlighting
+		shikiConfig: {
+			wrap: true,
+			theme: 'rose-pine-dawn',
+		},
 	}
 });
