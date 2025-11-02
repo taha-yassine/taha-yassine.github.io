@@ -107,6 +107,8 @@ Let's go back to speculative decoding. We have seen that the usual pipeline is t
 
 Packing sequences is an efficient way to verify multiple variations of the same draft at once, but we can do better. In general, variations occur at the token level at positions where multiple candidates could be valid. For example, given the prefix _"The quick brown fox..."_, both _"...jumped over the lazy dog"_ and _"...jumped over the wooden fence"_ would be valid drafts. Here, the first three words are the same in both cases. If we were to pack these sequences together, their corresponding tokens would be unnecessarily processed twice. While this isn't a big issue when the number of drafts is small (e.g., 2 here), it can become quite costly when that number increases. One way to address this is to represent the draft sequences as a tree where each node is a token. Just like in the case of packing, the tree should be converted to a single sequence for verification by flattening it. The order doesn't really matter<Footnote>This assumes correct positional embedding.</Footnote>. And again, the attention mask should be modified to control which tokens are allowed to attend to which depending on the branch they belong to in the tree. This type of attention mask is called [tree attention](https://arxiv.org/abs/2305.09781).
 
+![Figure 2](../../assets/tree_attention.svg)
+
 ## Drafting
 Let's now explore the different methods for generating draft sequences, starting from the most straightforward approaches and gradually moving to more sophisticated ones.
 
