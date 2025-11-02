@@ -53,6 +53,7 @@ main {
 	height: 100%;
 	margin: auto;
 	padding: 1em;
+	box-sizing: border-box;
 }
 h1,
 h2,
