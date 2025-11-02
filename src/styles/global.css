@@ -119,9 +119,7 @@ img {
 	scroll-margin-top: 96px;
 }
 code {
-	padding: 2px 5px;
-	background-color: var(--gray-light);
-	border-radius: 2px;
+	color: var(--accent);
 }
 pre {
 	padding: 1.5em;
