@@ -53,6 +53,7 @@ main {
 	height: 100%;
 	margin: auto;
 	padding: 1em;
+	box-sizing: border-box;
 }
 h1,
 h2,
@@ -118,9 +119,7 @@ img {
 	scroll-margin-top: 96px;
 }
 code {
-	padding: 2px 5px;
-	background-color: var(--gray-light);
-	border-radius: 2px;
+	color: var(--accent);
 }
 pre {
 	padding: 1.5em;

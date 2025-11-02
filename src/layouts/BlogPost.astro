@@ -10,6 +10,9 @@ interface Heading { depth: number; slug: string; text: string }
 type Props = CollectionEntry<'blog'>['data'] & { headings?: Heading[] };
 
 const { title, description, pubDate, updatedDate, heroImage, headings } = Astro.props;
+
+// Reset footnote numbering per page render
+globalThis.__fnCounter = 0;
 ---
 
 <html lang="en">
@@ -82,11 +85,21 @@ const { title, description, pubDate, updatedDate, heroImage, headings } = Astro.
 				width: 100%;
 				color: var(--gray-dark);
 			}
+			@media (min-width: 1201px) {
+				.prose {
+					padding-right: calc(var(--fn-width, 240px) + var(--fn-gutter, 16px));
+				}
+			}
+			article {
+				--fn-width: 240px;
+				--fn-gutter: 16px;
+			}
 			.title {
 				margin-bottom: 1em;
 				padding: 1em 1em 0;
 				text-align: left;
 				width: 100%;
+				box-sizing: border-box;
 			}
 			.title h1 {
 				margin: 0 0 0.5em 0;
@@ -105,7 +118,7 @@ const { title, description, pubDate, updatedDate, heroImage, headings } = Astro.
 			}
 			.prose :global(img) {
 				display: block;
-				width: 70%;
+				width: 100%;
 				height: auto;
 				margin: 0 auto;
 			}

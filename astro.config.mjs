@@ -13,6 +13,7 @@ export default defineConfig({
 	site: 'https://example.com',
 	integrations: [mdx(), sitemap()],
 	markdown: {
+		// LaTeX
 		remarkPlugins: [remarkMath],
 		rehypePlugins: [[rehypeMathjax, {tex:{tags:'ams'}}]],
 
