@@ -1,0 +1,13 @@
+---
+// props: { n?: number }
+const n = Astro.props.n ?? (globalThis.__fnCounter = (globalThis.__fnCounter ?? 0) + 1);
+---
+<span class="fn"><sup class="fn-ref" id={"fnref-"+n}>{n}</sup><span class="fn-note" id={"fn-"+n} role="note" aria-label={"Footnote "+n}><span class="fn-number">{n}.</span> <slot /></span></span>
+<style>
+  /* These rely on variables set on the article container */
+  .fn-note { float: right; clear: right; width: var(--fn-width, 240px); margin-right: calc(-1 * (var(--fn-width, 240px) + var(--fn-gutter, 16px))); font-size: 0.9em; line-height: 1.4; color: var(--text-muted, inherit); }
+  .fn-ref { vertical-align: super; font-size: 0.75em; }
+  .fn-number { font-weight: 500; }
+  @media (max-width: 1200px) { .fn-note { float: none; clear: none; width: auto; margin: 0.5em 0 0; } }
+</style>
+
